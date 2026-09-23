@@ -6,3 +6,4 @@ requests==2.32.5
 opentelemetry-distro
 opentelemetry-exporter-otlp
 opentelemetry-instrumentation-logging
+pytest
