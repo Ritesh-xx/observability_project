@@ -1,0 +1,24 @@
+global:
+  resolve_timeout: 5m
+
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'bakuescaped@gmail.com'
+  smtp_auth_username: 'bakuescaped@gmail.com'
+  smtp_auth_password: 'fqyoyhwfycnliwiq'
+  smtp_require_tls: true
+
+route:
+  receiver: email
+
+receivers:
+  - name: email
+    email_configs:
+      - to: 'bakuescaped@gmail.com'
+        send_resolved: true
+
+
+
+
+
+
+

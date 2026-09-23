@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+            
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: app
+    static_configs:
+      - targets: ['app:8000']
+        labels:
+          environment: lab
+          service: flask-api
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['prometheus:9090']

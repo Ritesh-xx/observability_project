@@ -1,0 +1,74 @@
+groups:
+  - name: lab-alerts
+    rules:
+      - alert: AppDown
+        expr: up{job="app"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Flask API is down"
+          description: "Prometheus cannot scrape the Flask API."
+
+      - alert: HighErrorRate
+        expr: (sum(rate(app_http_requests_total{job="app",status=~"5.."}[2m])) / sum(rate(app_http_requests_total{job="app"}[2m]))) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HTTP error rate is above 5%"
+          description: "More than 5% of application requests are returning 5xx responses."
+
+      - alert: HighLatencyP95
+        expr: histogram_quantile(0.95, sum by (le) (rate(app_http_request_duration_seconds_bucket{job="app"}[2m]))) > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Application p95 latency is high"
+          description: "95% of observed requests are not completing within 1 second."
+
+      - alert: HighLatencyP99
+        expr: histogram_quantile(0.99, sum by (le) (rate(app_http_request_duration_seconds_bucket{job="app"}[2m]))) > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Application p99 latency is high"
+          description: "99% of observed requests are not completing within 1 second."
+
+      - alert: HighLatencyP50
+        expr: histogram_quantile(0.50, sum by (le) (rate(app_http_request_duration_seconds_bucket{job="app"}[2m]))) > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Application p50 latency is high"
+          description: "50% of observed requests are not completing within 1 second."
+
+      - alert: DatabaseErrors
+        expr: increase(app_db_errors_total{job="app"}[2m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Database errors detected"
+          description: "The application has experienced database errors recently."
+
+      - alert: RedisErrors
+        expr: increase(app_redis_errors_total{job="app"}[2m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis errors detected"
+          description: "The application has experienced Redis errors recently."
+
+      - alert: ExternalAPIErrors
+        expr: increase(app_external_api_errors_total{job="app"}[2m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "External API errors detected"
+          description: "The application has experienced errors while calling its external dependency."
