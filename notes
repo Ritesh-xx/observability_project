@@ -1,0 +1,13 @@
+Before starting the stack, create `.secrets/alertmanager_smtp_password` with your
+new Google app password. Keep the file local and do not commit it:
+
+```bash
+umask 077
+mkdir -p .secrets
+read -rsp "Gmail app password: " password
+printf '%s' "$password" > .secrets/alertmanager_smtp_password
+unset password
+```
+
+Revoke any app password previously committed to the repository in your Google
+Account's Security settings.

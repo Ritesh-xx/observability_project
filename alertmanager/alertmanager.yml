@@ -4,7 +4,7 @@ global:
   smtp_smarthost: 'smtp.gmail.com:587'
   smtp_from: 'bakuescaped@gmail.com'
   smtp_auth_username: 'bakuescaped@gmail.com'
-  smtp_auth_password: 'fqyoyhwfycnliwiq'
+  smtp_auth_password_file: '/run/secrets/gmail_app_password'
   smtp_require_tls: true
 
 route:

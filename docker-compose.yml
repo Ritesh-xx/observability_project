@@ -81,6 +81,7 @@ services:
       - "9093:9093"
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./.secrets/alertmanager_smtp_password:/run/secrets/gmail_app_password:ro
       - alertmanagerdata:/alertmanager
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
